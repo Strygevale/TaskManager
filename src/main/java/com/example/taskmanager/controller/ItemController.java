@@ -4,6 +4,7 @@ import com.example.taskmanager.model.Item;
 import com.example.taskmanager.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class ItemController {
     }
 
     @PostMapping("/CreateItem")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String createItems(Item item) {
         itemService.saveItem(item);
         return "redirect:/items";
@@ -52,12 +54,14 @@ public class ItemController {
     }
 
     @PostMapping("/UpdateItem")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String updateItem(Item item){
         itemService.saveItem(item);
         return "redirect:/items";
     }
     //удаление
     @GetMapping("ItemDelete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteItems(@PathVariable("id") int id){
         itemService.deleteItem(id);
         return  "redirect:/items";
